@@ -95,4 +95,7 @@ ENV/
 
 # DB
 tokens.db
+
+# Sensetive
 src/variables.py
+setup_db.py
