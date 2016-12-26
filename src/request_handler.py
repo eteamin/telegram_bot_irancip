@@ -8,16 +8,31 @@ def headers():
     return {'token': triple_des(auth_secret_key).encrypt(auth_message, padmode=2)}
 
 
-def post_uid(telegram_uid):
+def post_uid(telegram_uid, telegram_name):
     """
     Posting telegram_uid to API to get a token
     {
         telegram_uid
     }
     :param telegram_uid: :type: Str
-    :return: discount_token :type: Str
+    :param telegram_name: :type: Str
+
+    :return: status :type: dict
     """
     payload = {
-        'telegram_uid': telegram_uid
+        'telegram_uid': telegram_uid,
+        'telegram_name': telegram_name
     }
-    return requests.post('%s/users/%s' % (api_url, telegram_uid), payload).json()['discount_token']
+    resp = requests.post('%s/users/' % api_url, json=payload).json()
+    if 'token' in resp:
+        return {
+            'OK': True,
+            'Error': None,
+            'token': resp['token']
+        }
+    else:
+        return {
+            'OK': False,
+            'Error': resp['detail']
+        }
+
