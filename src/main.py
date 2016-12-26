@@ -2,6 +2,7 @@ from telegram import Bot
 
 from src.variables import token, start, welcome_buttons, welcome_text, register, completion_message
 from src.keyboard_maker import make_keyboard
+from src.request_handler import post_uid
 
 
 class IranCIPBot(object):
@@ -19,11 +20,7 @@ class IranCIPBot(object):
                     if update.message.text == start:
                         self.bot.send_message(update.message.chat_id, text=welcome_text, reply_markup=self.buttons)
                     elif update.message.text == register:
-                        tg_user_id = str(update.message.from_user.id)
+                        telegram_uid = str(update.message.from_user.id)
+                        discount_token = post_uid(telegram_uid)
                         self.bot.send_message(update.message.chat_id, text=completion_message)
-                        self.bot.send_message(update.message.chat_id, text=generate_discount_code(tg_user_id))
-
-
-if __name__ == '__main__':
-    a = IranCIPBot()
-    a.loop()
+                        self.bot.send_message(update.message.chat_id, text=discount_token)
