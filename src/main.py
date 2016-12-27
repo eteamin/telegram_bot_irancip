@@ -15,12 +15,11 @@ def app():
     with open(welcome_img, 'r') as welcome_image:
         while True:
             updates = bot.get_updates(offset=offset, timeout=3)
-            # print('ssss')
             if updates:
                 for update in updates:
                     offset = update.update_id + 1
                     if update.message.text == start:
-                        bot.send_photo(update.message.chat_id, welcome_image.buffer)
+                        bot.send_photo(update.message.chat_id, welcome_image.buffer, reply_markup=buttons)
                         welcome_image.seek(0)
                     elif update.message.text == get_code:
                         telegram_uid = str(update.message.from_user.id)
