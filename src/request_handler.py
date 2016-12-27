@@ -1,3 +1,5 @@
+from json.decoder import JSONDecodeError
+
 import requests
 from pyDes import triple_des
 
@@ -23,7 +25,13 @@ def post_uid(telegram_uid, telegram_name):
         'telegram_uid': telegram_uid,
         'telegram_name': telegram_name
     }
-    resp = requests.post('%s/users/' % api_url, json=payload).json()
+    try:
+        resp = requests.post('%s/users/' % api_url, json=payload).json()
+    except JSONDecodeError:
+        return {
+            'OK': False,
+            'Error': 'لطفا مجددا تلاش کنید'
+        }
     if 'token' in resp:
         return {
             'OK': True,
