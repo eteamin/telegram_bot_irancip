@@ -1,6 +1,7 @@
 from json.decoder import JSONDecodeError
 
 import requests
+from requests.exceptions import ConnectionError
 from pyDes import triple_des
 
 from src.variables import auth_message, auth_secret_key, api_url
@@ -27,7 +28,7 @@ def post_uid(telegram_uid, telegram_name):
     }
     try:
         resp = requests.post('%s/users/' % api_url, json=payload).json()
-    except JSONDecodeError:
+    except (JSONDecodeError, ConnectionError):
         return {
             'OK': False,
             'Error': 'لطفا مجددا تلاش کنید'
