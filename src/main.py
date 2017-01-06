@@ -8,13 +8,14 @@ from request_handler import post_uid
 bot = Bot(token=token)
 offset = 0
 buttons = make_keyboard(welcome_buttons)
+timeout = 3
 
 
 def app():
     global offset
     with open(welcome_img, 'r') as welcome_image:
         while True:
-            updates = bot.get_updates(offset=offset, timeout=3)
+            updates = bot.get_updates(offset=offset, timeout=timeout)
             if updates:
                 for update in updates:
                     offset = update.update_id + 1
